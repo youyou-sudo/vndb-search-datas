@@ -1,9 +1,8 @@
 name: Process VNDB Data
 
 on:
-  push:
-    branches:
-      - main   # 每main提交时更新
+  schedule:
+    - cron: '0 */6 * * *'   # 每6小时触发一次
 
 permissions:
   contents: write

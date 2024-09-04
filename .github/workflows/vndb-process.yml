@@ -1,0 +1,55 @@
+name: Process VNDB Data
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  vndb-process:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install zstandard requests
+
+      - name: Download and extract VNDB dump
+        run: |
+          python script/dlvndb.py
+
+      - name: Process JSON data
+        run: |
+          python script/vn_data_json.py
+
+      - name: Upload to GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Define variables
+          RELEASE_TAG="v1.0.0"
+          FILE_PATH="vn_data.json" # Replace with your actual file path
+          FILE_NAME="vn_data.json" # Replace with your actual file name
+
+          # Upload the file to the existing release
+          RESPONSE=$(curl -s -X POST \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            -H "Content-Type: application/zip" \
+            --data-binary @"$FILE_PATH" \
+            "https://uploads.github.com/repos/youyou-sudo/vndb-search-dataset/releases/173472428/assets?name=$FILE_NAME")
+          
+          echo "Response: $RESPONSE"

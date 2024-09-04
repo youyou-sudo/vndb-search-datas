@@ -3,7 +3,7 @@ name: Process VNDB Data
 on:
   push:
     branches:
-      - main
+      - main   # 每main提交时更新
 
 permissions:
   contents: write

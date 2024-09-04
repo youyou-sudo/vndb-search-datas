@@ -1,9 +1,8 @@
 name: Process VNDB Data
 
 on:
-  push:
-    branches:
-      - main
+  schedule:
+    - cron: '0 0 * * 0' # 每周一次，定时为每周日午夜
 
 permissions:
   contents: write
@@ -41,8 +40,9 @@ jobs:
         run: |
           # Define variables
           RELEASE_TAG="v1.0.0"
-          FILE_PATH="vn_data.json" # Replace with your actual file path
-          FILE_NAME="vn_data.json" # Replace with your actual file name
+          FILE_PATH="vn_data.json"
+          CURRENT_DATE=$(date +'%Y-%m-%d')
+          FILE_NAME="vndb-data-${CURRENT_DATE}.json"
 
           # Upload the file to the existing release
           RESPONSE=$(curl -s -X POST \
@@ -50,6 +50,6 @@ jobs:
             -H "Accept: application/vnd.github+json" \
             -H "Content-Type: application/zip" \
             --data-binary @"$FILE_PATH" \
-            "https://uploads.github.com/repos/youyou-sudo/vndb-search-dataset/releases/173472428/assets?name=$FILE_NAME")
+            "https://uploads.github.com/repos/youyou-sudo/vndb-search-datas/releases/173481051/assets?name=$FILE_NAME")
           
           echo "Response: $RESPONSE"

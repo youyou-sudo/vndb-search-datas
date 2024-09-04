@@ -1,8 +1,9 @@
 name: Process VNDB Data
 
 on:
-  schedule:
-    - cron: '0 0 */3 * *'  # 每三天执行一次，UTC 时间
+  push:
+    branches:
+      - main
 
 permissions:
   contents: write
@@ -41,8 +42,7 @@ jobs:
           # Define variables
           RELEASE_TAG="v1.0.0"
           FILE_PATH="vn_data.json"
-          CURRENT_DATE=$(date +'%Y-%m-%d')
-          FILE_NAME="vndb-data-${CURRENT_DATE}.json"
+          FILE_NAME="vndb-data-Latest.json"
 
           # Upload the file to the existing release
           RESPONSE=$(curl -s -X POST \

@@ -155,9 +155,18 @@ def tsv_to_json(vn_tsv_file_path, vn_titles_tsv_file_path, releases_titles_tsv_f
     # 删除没有 image 字段的条目
     transformed_data_list = [entry for entry in transformed_data_list if entry.get("image")]
 
+    # 获取当前时间戳
+    timestamp = datetime.now().isoformat()
+
+    # 构建包含时间戳和数据的字典
+    output_data = {
+        "timestamp": timestamp,
+        "data": transformed_data_list
+    }
+
     # 将数据转换为JSON格式并写入文件
     with open(json_file_path, 'w', encoding='utf-8') as json_file:
-        json.dump(transformed_data_list, json_file, ensure_ascii=False, indent=4)
+        json.dump(output_data, json_file, ensure_ascii=False, indent=4)
 
 
 # 使用示例

@@ -2,7 +2,8 @@ name: Process VNDB Data
 
 on:
   schedule:
-    - cron: '0 */6 * * *'   # 每6小时触发一次
+    - cron: "0 */6 * * *" # 每6小时触发一次
+  workflow_dispatch: # 手动触发
 
 permissions:
   contents: write
@@ -43,7 +44,7 @@ jobs:
           FILE_PATH="vn_data.json"
           FILE_NAME="vndb-data-Latest.json"
           REPO="youyou-sudo/vndb-search-datas"
-          
+
           # Get the release ID
           RELEASE_ID=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
             "https://api.github.com/repos/$REPO/releases/tags/$RELEASE_TAG" | jq -r '.id')
@@ -65,5 +66,5 @@ jobs:
             -H "Content-Type: application/zip" \
             --data-binary @"$FILE_PATH" \
             "https://uploads.github.com/repos/$REPO/releases/$RELEASE_ID/assets?name=$FILE_NAME")
-          
+
           echo "Response: $RESPONSE"

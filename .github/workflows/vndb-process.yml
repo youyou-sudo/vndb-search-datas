@@ -35,7 +35,7 @@ jobs:
         run: |
           python script/vn_data_json.py
 
-      - name: Upload to GitHub Release
+      - name: Upload vn_data.json to GitHub Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -43,6 +43,40 @@ jobs:
           RELEASE_TAG="v1.0.0"
           FILE_PATH="vn_data.json"
           FILE_NAME="vndb-data-Latest.json"
+          REPO="youyou-sudo/vndb-search-datas"
+
+          # Get the release ID
+          RELEASE_ID=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
+            "https://api.github.com/repos/$REPO/releases/tags/$RELEASE_TAG" | jq -r '.id')
+
+          # Get the asset ID for the old file
+          ASSET_ID=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
+            "https://api.github.com/repos/$REPO/releases/$RELEASE_ID/assets" | jq -r '.[] | select(.name == "'"$FILE_NAME"'") | .id')
+
+          # Delete the old file
+          if [ "$ASSET_ID" != "null" ]; then
+            curl -s -X DELETE -H "Authorization: token $GITHUB_TOKEN" \
+              "https://api.github.com/repos/$REPO/releases/assets/$ASSET_ID"
+          fi
+
+          # Upload the new file
+          RESPONSE=$(curl -s -X POST \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            -H "Content-Type: application/zip" \
+            --data-binary @"$FILE_PATH" \
+            "https://uploads.github.com/repos/$REPO/releases/$RELEASE_ID/assets?name=$FILE_NAME")
+
+          echo "Response: $RESPONSE"
+
+      - name: Upload timeVersion.json to GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Define variables
+          RELEASE_TAG="v1.0.0"
+          FILE_PATH="timeVersion.json"
+          FILE_NAME="timeVersion.json"
           REPO="youyou-sudo/vndb-search-datas"
 
           # Get the release ID

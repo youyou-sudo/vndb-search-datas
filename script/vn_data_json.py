@@ -40,9 +40,8 @@ def clean_data(data):
             for release in entry['releases']:
                 clean_entry(release)
 
-
 def tsv_to_json(vn_tsv_file_path, vn_titles_tsv_file_path, releases_titles_tsv_file_path, releases_vn_tsv_file_path,
-                releases_file_path, json_file_path):
+                releases_file_path, json_file_path, timestamp_file_path):
     # 使用defaultdict来组织数据
     vn_data = defaultdict(
         lambda: {"id": None, "titles": [], "image": None, "olang": None, "alias": [], "releases": []})
@@ -164,12 +163,16 @@ def tsv_to_json(vn_tsv_file_path, vn_titles_tsv_file_path, releases_titles_tsv_f
         "data": transformed_data_list
     }
 
-    # 将数据转换为JSON格式并写入文件
+    # 将数据转换为JSON格式并写入主文件
     with open(json_file_path, 'w', encoding='utf-8') as json_file:
         json.dump(output_data, json_file, ensure_ascii=False, indent=4)
+
+    # 输出一个只有时间戳的 JSON 文件
+    timestamp_data = {"timeVersion": timestamp}
+    with open(timestamp_file_path, 'w', encoding='utf-8') as timestamp_file:
+        json.dump(timestamp_data, timestamp_file, ensure_ascii=False, indent=4)
 
 
 # 使用示例
 tsv_to_json('./vndb_data/db/vn', './vndb_data/db/vn_titles', './vndb_data/db/releases_titles',
-            './vndb_data/db/releases_vn',
-            './vndb_data/db/releases', 'vn_data.json')
+            './vndb_data/db/releases_vn', './vndb_data/db/releases', 'vn_data.json', 'timeVersion.json')

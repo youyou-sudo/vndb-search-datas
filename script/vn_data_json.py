@@ -92,7 +92,7 @@ def tsv_to_json(vn_tsv_file_path, vn_titles_tsv_file_path, releases_titles_tsv_f
             entry_id = row['id']
             if entry_id not in releases_data:
                 releases_data[entry_id] = {
-                    "id": row["id"],
+                    "vnid": row["id"],
                     "lang": row["lang"],
                     "mtl": row["mtl"],
                     "title": row["title"],

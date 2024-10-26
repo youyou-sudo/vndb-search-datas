@@ -40,6 +40,7 @@ def clean_data(data):
             for release in entry['releases']:
                 clean_entry(release)
 
+
 def tsv_to_json(vn_tsv_file_path, vn_titles_tsv_file_path, releases_titles_tsv_file_path, releases_vn_tsv_file_path,
                 releases_file_path, json_file_path, timestamp_file_path):
     # 使用defaultdict来组织数据
@@ -163,12 +164,17 @@ def tsv_to_json(vn_tsv_file_path, vn_titles_tsv_file_path, releases_titles_tsv_f
         "data": transformed_data_list
     }
 
-    # 将数据转换为NDJSON格式并写入主文件
+    # 将时间戳和数据分别写入 NDJSON 文件
     with open(json_file_path, 'w', encoding='utf-8') as json_file:
-        for item in output_data:
+        # 写入时间戳
+        json_file.write(json.dumps({"timestamp": output_data["timestamp"]}, ensure_ascii=False) + '\n')
+
+        # 写入数据列表中的每个项
+        for item in output_data["data"]:
             json_file.write(json.dumps(item, ensure_ascii=False) + '\n')
 
     # 输出一个只有时间戳的 NDJSON 文件
+
     timestamp_data = {"timeVersion": timestamp}
     with open(timestamp_file_path, 'w', encoding='utf-8') as timestamp_file:
         timestamp_file.write(json.dumps(timestamp_data, ensure_ascii=False) + '\n')

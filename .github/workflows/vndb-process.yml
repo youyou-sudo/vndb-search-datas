@@ -2,7 +2,7 @@ name: Process VNDB Data
 
 on:
   schedule:
-    - cron: "0 */6 * * *" # 每6小时触发一次
+    - cron: "0 */12 * * *" # 每6小时触发一次
   workflow_dispatch: # 手动触发
 
 permissions:
@@ -35,14 +35,14 @@ jobs:
         run: |
           python script/vn_data_json.py
 
-      - name: Upload vn_data.json to GitHub Release
+      - name: Upload vn_data.ndjson to GitHub Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Define variables
           RELEASE_TAG="v1.0.0"
-          FILE_PATH="vn_data.json"
-          FILE_NAME="vndb-data-Latest.json"
+          FILE_PATH="vn_data.ndjson"
+          FILE_NAME="vndb-data-Latest.ndjson"
           REPO="youyou-sudo/vndb-search-datas"
 
           # Get the release ID
@@ -69,14 +69,14 @@ jobs:
 
           echo "Response: $RESPONSE"
 
-      - name: Upload timeVersion.json to GitHub Release
+      - name: Upload timeVersion.ndjson to GitHub Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Define variables
           RELEASE_TAG="v1.0.0"
-          FILE_PATH="timeVersion.json"
-          FILE_NAME="timeVersion.json"
+          FILE_PATH="timeVersion.ndjson"
+          FILE_NAME="timeVersion.ndjson"
           REPO="youyou-sudo/vndb-search-datas"
 
           # Get the release ID

@@ -41,7 +41,7 @@ jobs:
 
       - name: Process tags_vn JSON data
         run: |
-          python script/tags_vn.py
+          python script/tags_vn_json.py
 
       - name: Upload vn_data.ndjson to GitHub Release
         env:

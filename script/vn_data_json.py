@@ -171,6 +171,12 @@ def tsv_to_json(vn_tsv_file_path, vn_titles_tsv_file_path, releases_titles_tsv_f
         for item in output_data["data"]:
             json_file.write(json.dumps(item, ensure_ascii=False) + '\n')
 
+    # 输出一个只有时间戳的 NDJSON 文件
+
+    timestamp_data = {"timeVersion": timestamp}
+    with open(timestamp_file_path, 'w', encoding='utf-8') as timestamp_file:
+        timestamp_file.write(json.dumps(timestamp_data, ensure_ascii=False) + '\n')
+
 
 # 使用示例
 tsv_to_json('./vndb_data/db/vn', './vndb_data/db/vn_titles', './vndb_data/db/releases_titles',

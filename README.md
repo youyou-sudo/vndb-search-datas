@@ -1,6 +1,6 @@
 # vndb-search-datas
 
-此存储库用于处理 Vndb 条目 & 发布的 `title`、`alias`、`steam_id` 等字段数据为一个大型 JSON 文件；
+此存储库用于处理 Vndb 条目 & 发布的 `title`、`alias`、`steam_id` 等字段数据为一个大型 NDJSON 文件；
 此文件可以倒入 Mongondb 等 NoSQL 数据库进行定位索引或分析。也可以导入 Meilisearch 搭配 rome 匹配搜索（搜索结果可信度非常高）。
 
 ## Todo

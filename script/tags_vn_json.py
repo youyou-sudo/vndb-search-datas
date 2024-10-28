@@ -2,6 +2,7 @@ import csv
 import json
 from collections import defaultdict
 
+
 # 读取标题和数据并转换为NDJSON格式
 def convert_to_ndjson(header_file_path, data_file_path, ndjson_file_path):
     # 读取标题
@@ -61,7 +62,7 @@ def convert_to_ndjson(header_file_path, data_file_path, ndjson_file_path):
     with open(ndjson_file_path, 'w', encoding='utf-8') as ndjson_file:
         for (tag, vid), values in ratings.items():
             average_rating = values['total_vote'] / values['vote_count'] if values['vote_count'] > 0 else 0
-            average_rating = round(average_rating)  # 四舍五入为整数
+            average_rating = round(average_rating, 1)  # 四舍五入为整数
 
             average_spoiler = values['total_spoiler'] / values['spoiler_count'] if values['spoiler_count'] > 0 else 0
             average_spoiler = round(average_spoiler)  # 四舍五入为整数

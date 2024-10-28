@@ -39,6 +39,7 @@ def convert_to_ndjson(header_file_path, data_file_path, ndjson_file_path):
             vote = int(vote)
             tag = row['tag']
             vid = row['vid']
+            uid = row['uid']
 
             # 更新总评分和计数
             ratings[(tag, vid)]['total_vote'] += vote
@@ -66,6 +67,8 @@ def convert_to_ndjson(header_file_path, data_file_path, ndjson_file_path):
             average_spoiler = round(average_spoiler)  # 四舍五入为整数
 
             entry = {
+                'uid': uid,
+                'unid': uid + tag + vid,
                 'tag': tag,
                 'vid': vid,
                 'average_rating': average_rating,
@@ -77,6 +80,7 @@ def convert_to_ndjson(header_file_path, data_file_path, ndjson_file_path):
             ndjson_file.write(json.dumps(entry, ensure_ascii=False) + '\n')
 
     print(f"数据已成功转换并保存到 {ndjson_file_path}")
+
 
 # 使用函数进行转换
 convert_to_ndjson('./vndb_data/db/tags_vn.header', './vndb_data/db/tags_vn', 'tags_vn.ndjson')

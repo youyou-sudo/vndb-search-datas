@@ -65,7 +65,7 @@ def convert_to_ndjson(header_file_path, data_file_path, ndjson_file_path):
             average_rating = round(average_rating, 1)  # 四舍五入为整数
 
             average_spoiler = values['total_spoiler'] / values['spoiler_count'] if values['spoiler_count'] > 0 else 0
-            average_spoiler = round(average_spoiler)  # 四舍五入为整数
+            average_spoiler = round(average_spoiler, 1)  # 四舍五入为整数
 
             entry = {
                 'uid': uid,

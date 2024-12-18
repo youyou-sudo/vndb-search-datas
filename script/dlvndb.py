@@ -1,5 +1,4 @@
 import tarfile
-
 import requests
 import zstandard as zstd
 
@@ -25,10 +24,10 @@ def decompress_zst(input_path, output_path):
     print(f"Decompressed to {output_path}")
 
 
-# 解压tar文件
+# 解压tar文件，显式传递 filter 参数
 def extract_tar(tar_path, extract_path):
     with tarfile.open(tar_path, 'r') as tar:
-        tar.extractall(path=extract_path)
+        tar.extractall(path=extract_path, filter=None)  # 显式禁用过滤器，避免警告
     print(f"Extracted {tar_path} to {extract_path}")
 
 

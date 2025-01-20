@@ -56,7 +56,6 @@ def tsv_to_json(vn_tsv_file_path, vn_titles_tsv_file_path, releases_titles_tsv_f
             entry_id = row['id']
             vn_data[entry_id]["id"] = entry_id
             vn_data[entry_id]["image"] = row["image"]
-            vn_data[entry_id]["description"] = row["description"]
             vn_data[entry_id]["olang"] = row.get("olang", None)
             aliases = row["alias"].replace('\\n', '\n').splitlines()
             vn_data[entry_id]["alias"] = [alias.strip() for alias in aliases if alias.strip()]

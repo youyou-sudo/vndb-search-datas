@@ -4,8 +4,9 @@ from collections import defaultdict
 from datetime import datetime
 
 # 定义列名
-vn_columns = ['id', 'olang', 'image', 'l_wikidata', 'c_votecount', 'c_rating', 'c_average', 'length', 'devstatus',
+vn_columns = ['id', 'image', 'c_image', 'olang', 'l_wikidata', 'c_votecount', 'c_rating', 'c_average', 'length', 'devstatus',
               'alias', 'l_renai', 'description']
+
 vn_titles_columns = ['id', 'lang', 'official', 'title', 'latin']
 releases_titles_columns = ['id', 'lang', 'mtl', 'title', 'latin']
 releases_vn_columns = ['id', 'vid', 'rtype']
